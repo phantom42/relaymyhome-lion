@@ -35,10 +35,12 @@ echo "Original MAC address is: $WirelessMAC"
 
 cleanup()
 {
+	sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist
+	sleep 15
     sudo ifconfig $wifi lladdr $WirelessMAC
-    networksetup -setairportpower $wifi off
-    networksetup -setairportpower $wifi on
-
+	sleep 15
+    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist
+    
     echo "Cycling of Relays has completed, MAC address reverted."
 }
 
